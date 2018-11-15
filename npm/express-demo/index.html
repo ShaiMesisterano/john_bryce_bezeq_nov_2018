@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>fetch sample</title>
+    </head>
+    <body>
+        <script>
+            fetch('http://localhost:8080/hello')
+                .then( function(res) {
+                    res
+                    .text()
+                    .then( function(data){
+                        console.log(data);
+                    });
+                });
+        </script>
+    </body>
+</html>
