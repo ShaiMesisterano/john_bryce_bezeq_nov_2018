@@ -12,9 +12,13 @@ router.get('/', function (req, res, next) {
     CarModels.find({}, function(error, carModels) {
         res.send(carModels);
     } );
-    var carModel = new CarModels({ name: "Jeep", origin: "USA", year: "1996" });
+    var carModel = new CarModels({ name: "Bugati", origin: "Italy", year: 1999 });
     carModel.increaseYears(2);
-    carModel.save();
+
+    (async function(){
+        const result = await carModel.save();
+        console.log(result);
+    })();
 });
 
 module.exports = router;
