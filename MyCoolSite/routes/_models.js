@@ -25,7 +25,7 @@ MongoClient.connect(dbUrl, function (error, db) {
       //   }
       // })
       // res.send(data);
-      res.send(result);
+      res.send("<pre>" + JSON.stringify(result, null, 4) + "</pre>");
     });
   });
   router.post('/', function (req, res, next) {
