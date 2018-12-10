@@ -1,0 +1,64 @@
+export default class FoodProduct {
+    private name: string;
+    private price: number;
+    private weight: number;
+    private isKosher: boolean;
+    private manufactor: string;
+    private expirationDate: Date;
+
+    constructor(_name: string, _price: number, _weight: number, _isKosher: boolean, _manufactor: string, _expirationDate: Date) {
+        this.name = _name;
+        this.price = _price;
+        this.weight = _weight;
+        this.isKosher = _isKosher;
+        this.manufactor = _manufactor;
+        this.expirationDate = _expirationDate;        
+    }
+
+    public getProduct(): string {
+        return `name: ${this.name} 
+        price: ${this.price} 
+        weight: ${this.weight} 
+        isKosher: ${this.isKosher} 
+        manufactor: ${this.manufactor} 
+        expirationDate: ${this.expirationDate}`;
+    } 
+
+    public getPriceAndName(): string {
+        return `price: ${this.price}
+        name: ${this.name}`;
+    }
+
+    public getName(): string {
+        return this.name;
+    }
+
+    public setPrice(price: number): string {
+        if (price > 0) {
+            this.price = price;
+            return `Price was updated successfully`
+        }
+        else {
+            return `Price must be greater than zero`;
+        }
+    }
+
+    public moreExpensive(otherProduct: FoodProduct): FoodProduct {
+        if (this.price > otherProduct.price) {
+            return this;
+        }
+        else {
+            return otherProduct;
+        }
+    }
+
+    public isExpired(): boolean {
+        // if (this.expirationDate < new Date()) {
+        //     return false;
+        // }
+        // else{ 
+        //     return true;
+        // }
+        return this.expirationDate > new Date();
+    }
+}

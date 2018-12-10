@@ -4,7 +4,16 @@ var ModelsSchema = new mongoose.Schema({
     name: {type: String},
     origin: {type: String},
     year: {
-        type: Number
+        type: Number,
+        required: true,
+        validate: {
+            validator: function(v) {
+                return false;
+            },
+            message: function(props) {
+                return `${props.value} is not a number`;
+            }
+        }
     }
 });
 
