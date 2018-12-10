@@ -1,10 +1,12 @@
+import ExpirationDate from '../classes/ExpirationDate';
+
 export default class FoodProduct {
     private name: string;
     private price: number;
     private weight: number;
     private isKosher: boolean;
     private manufactor: string;
-    private expirationDate: Date;
+    private expirationDate: ExpirationDate;
 
     constructor(_name: string, _price: number, _weight: number, _isKosher: boolean, _manufactor: string, _expirationDate: Date) {
         this.name = _name;
@@ -12,7 +14,7 @@ export default class FoodProduct {
         this.weight = _weight;
         this.isKosher = _isKosher;
         this.manufactor = _manufactor;
-        this.expirationDate = _expirationDate;        
+        this.expirationDate = new ExpirationDate(_expirationDate);        
     }
 
     public getProduct(): string {
@@ -21,7 +23,7 @@ export default class FoodProduct {
         weight: ${this.weight} 
         isKosher: ${this.isKosher} 
         manufactor: ${this.manufactor} 
-        expirationDate: ${this.expirationDate}`;
+        expirationDate: ${this.expirationDate.getExpirationDate()}`;
     } 
 
     public getPriceAndName(): string {
@@ -50,15 +52,5 @@ export default class FoodProduct {
         else {
             return otherProduct;
         }
-    }
-
-    public isExpired(): boolean {
-        // if (this.expirationDate < new Date()) {
-        //     return false;
-        // }
-        // else{ 
-        //     return true;
-        // }
-        return this.expirationDate > new Date();
     }
 }

@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+var ExpirationDate_1 = require("../classes/ExpirationDate");
 var FoodProduct = /** @class */ (function () {
     function FoodProduct(_name, _price, _weight, _isKosher, _manufactor, _expirationDate) {
         this.name = _name;
@@ -7,10 +8,10 @@ var FoodProduct = /** @class */ (function () {
         this.weight = _weight;
         this.isKosher = _isKosher;
         this.manufactor = _manufactor;
-        this.expirationDate = _expirationDate;
+        this.expirationDate = new ExpirationDate_1["default"](_expirationDate);
     }
     FoodProduct.prototype.getProduct = function () {
-        return "name: " + this.name + " \n        price: " + this.price + " \n        weight: " + this.weight + " \n        isKosher: " + this.isKosher + " \n        manufactor: " + this.manufactor + " \n        expirationDate: " + this.expirationDate;
+        return "name: " + this.name + " \n        price: " + this.price + " \n        weight: " + this.weight + " \n        isKosher: " + this.isKosher + " \n        manufactor: " + this.manufactor + " \n        expirationDate: " + this.expirationDate.getExpirationDate();
     };
     FoodProduct.prototype.getPriceAndName = function () {
         return "price: " + this.price + "\n        name: " + this.name;
@@ -34,15 +35,6 @@ var FoodProduct = /** @class */ (function () {
         else {
             return otherProduct;
         }
-    };
-    FoodProduct.prototype.isExpired = function () {
-        // if (this.expirationDate < new Date()) {
-        //     return false;
-        // }
-        // else{ 
-        //     return true;
-        // }
-        return this.expirationDate > new Date();
     };
     return FoodProduct;
 }());

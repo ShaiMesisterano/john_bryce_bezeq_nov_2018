@@ -13,18 +13,23 @@ router.post('/', function (req, res, next) {
         manufactor: req.body.manufactor,
         expirationDate: req.body.expirationDate
     };
-    var newProduct = new FoodProduct_1["default"](bodyData.name, bodyData.price, bodyData.weight, bodyData.isKosher, bodyData.manufactor, bodyData.expirationDate);
+    var newProduct = new FoodProduct_1["default"](bodyData.name, bodyData.price, bodyData.weight, bodyData.isKosher, bodyData.manufactor, new Date(bodyData.expirationDate));
     products[bodyData.name] = newProduct;
     res.send("Added Successfully");
 });
 router.get('/:name', function (req, res, next) {
+    // O(n) complexity (using an array)
     // for (let i=0; i<products.length;i++){
     //   if (products[i].getName() === req.params.name) {
     //     res.send(products[i].getProduct());
     //     break;
     //   }
     // }
+    // O(1) complexity (using an object)
     var product = products[req.params.name];
+    if (req.query.checkExp) {
+        res.send(product.expirationDate.isExpired());
+    }
     if (product) {
         res.send(product.getProduct());
     }
