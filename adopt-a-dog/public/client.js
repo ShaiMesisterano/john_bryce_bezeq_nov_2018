@@ -46,4 +46,17 @@
 // }
 
 const socket = io();
-socket.on('pictures', pictures => console.log(pictures));
+
+socket.on('file', file => {
+    console.log(file);
+    if (file.url.indexOf('mp4') > -1 || file.url.indexOf('webm') > -1) {
+        document.querySelector('#dogVideo').className = '';
+        document.querySelector('#dogPic').className = 'hide';
+        document.querySelector('#dogVideo').src = file.url;    
+    }
+    else {
+        document.querySelector('#dogPic').className = '';
+        document.querySelector('#dogVideo').className = 'hide';
+        document.querySelector('#dogPic').src = file.url;
+    }
+});

@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as socketIO from 'socket.io';
 import * as indexRouter from './routers/index';
 import * as userRouter from './routers/user';
-import * as gallery from './resources/gallery'
+import * as Gallery from './resources/Gallery'
 
 const app: express = express();
 const server: http.Server = http.createServer(app);
@@ -24,9 +24,15 @@ const io: socketIO.Server = socketIO(server);
 // });
 
 io.on('connection', async socket => {
-    console.log('socket is connected...');
-    const pictures = await gallery();
-    io.emit('pictures', pictures)
+    // console.log('socket is connected...');
+    // const pictures = await gallery();
+    // io.emit('pictures', pictures);
+    // socket.on('init', (msg) => {
+    //     const gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+    //     gallery.start();
+    // })
+    const gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+    gallery.start();
 });
 
 // server.listen(3000, function() {

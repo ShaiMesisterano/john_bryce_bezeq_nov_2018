@@ -44,7 +44,7 @@ var bodyParser = require("body-parser");
 var socketIO = require("socket.io");
 var indexRouter = require("./routers/index");
 var userRouter = require("./routers/user");
-var gallery = require("./resources/gallery");
+var Gallery = require("./resources/Gallery");
 var app = express();
 var server = http.createServer(app);
 app.use(bodyParser.urlencoded());
@@ -57,17 +57,11 @@ var io = socketIO(server);
 //     console.log('socket is connected...');
 // });
 io.on('connection', function (socket) { return __awaiter(_this, void 0, void 0, function () {
-    var pictures;
+    var gallery;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log('socket is connected...');
-                return [4 /*yield*/, gallery()];
-            case 1:
-                pictures = _a.sent();
-                io.emit('pictures', pictures);
-                return [2 /*return*/];
-        }
+        gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+        gallery.start();
+        return [2 /*return*/];
     });
 }); });
 // server.listen(3000, function() {
