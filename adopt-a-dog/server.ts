@@ -10,6 +10,7 @@ import * as Gallery from './resources/Gallery'
 
 const app: express = express();
 const server: http.Server = http.createServer(app);
+let gallery;
 
 app.use(bodyParser.urlencoded());
 app.use(session({ secret: "mySecret" }));
@@ -31,7 +32,7 @@ io.on('connection', async socket => {
     //     const gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
     //     gallery.start();
     // })
-    const gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+    gallery = new Gallery('http://random.dog/woof.json', socket, io, 3, 5000);
     gallery.start();
 });
 

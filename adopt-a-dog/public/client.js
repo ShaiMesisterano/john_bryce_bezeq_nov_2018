@@ -45,18 +45,59 @@
 //     document.querySelector('#counter').innerHTML = counter;
 // }
 
-const socket = io();
+(async () => {
+    await initUsername();
+    initSocket();
+})();
 
-socket.on('file', file => {
-    console.log(file);
-    if (file.url.indexOf('mp4') > -1 || file.url.indexOf('webm') > -1) {
-        document.querySelector('#dogVideo').className = '';
-        document.querySelector('#dogPic').className = 'hide';
-        document.querySelector('#dogVideo').src = file.url;    
-    }
-    else {
-        document.querySelector('#dogPic').className = '';
-        document.querySelector('#dogVideo').className = 'hide';
-        document.querySelector('#dogPic').src = file.url;
-    }
-});
+async function initUsername() {
+    const response = await fetch('/user');
+    const username = await response.text();
+    document.querySelector('#username').innerText = "Hello " + username;
+}
+
+function initSocket() {
+    const socket = io();
+
+    socket.on('file', file => {
+        console.log(file);
+        enableButtons();
+        if (file.url.indexOf('mp4') > -1 || file.url.indexOf('webm') > -1) {
+            document.querySelector('#dogVideo').className = '';
+            document.querySelector('#dogPic').className = 'hide';
+            document.querySelector('#dogVideo').src = file.url;
+        }
+        else {
+            document.querySelector('#dogPic').className = '';
+            document.querySelector('#dogVideo').className = 'hide';
+            document.querySelector('#dogPic').src = file.url;
+        }
+    });
+
+    socket.on('loading completed', () => {
+        document.querySelector('#loading').className = 'hide';
+        document.querySelector('#content').className = '';
+    });
+
+    socket.on('counter', counter => document.querySelector('#counter').innerText = counter);
+
+    document.querySelector('#btnAdopt').addEventListener('click', function () {
+        disableButtons();
+        socket.emit('vote', { type: 'adopt' });
+    });
+
+    document.querySelector('#btnDrop').addEventListener('click', function () {
+        disableButtons();
+        socket.emit('vote', { type: 'drop' });
+    });
+}
+
+function enableButtons() {
+    document.querySelector('#btnAdopt').disabled = false;
+    document.querySelector('#btnDrop').disabled = false;
+}
+
+function disableButtons() {
+    document.querySelector('#btnAdopt').disabled = true;
+    document.querySelector('#btnDrop').disabled = true;
+}

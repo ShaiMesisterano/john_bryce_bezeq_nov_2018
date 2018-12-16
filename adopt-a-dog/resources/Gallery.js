@@ -1,13 +1,14 @@
 const request = require('request');
 
 class Gallery {
-    constructor(endpoint, io, num, timer) {
+    constructor(endpoint, socket, io, num, timer) {
         this.endpoint = endpoint;
         this.io = io;
         this.num = num;
         this.timer = timer;
         this.pictures = [];
         this.index = 0;
+        socket.on('vote', msg => this.vote.call(this, msg));
     }
 
     create() {
@@ -31,13 +32,29 @@ class Gallery {
     async start() {
         console.info('start');
         const pictures = await this.create();
+        this.io.emit('loading completed');
+        this.io.emit('file', this.next());
         let interval = setInterval( () => this.io.emit('file', this.next()), this.timer );
     }
 
     next() {
         console.info('next', new Date());
-        this.index = this.index === this.num ? 0 : ++this.index;
+        this.index = this.index === this.num - 1 ? 0 : ++this.index;
+        this.emitCounter();
         return this.pictures[this.index];
+    }
+
+    vote(msg) {
+        console.log("MSG: " + msg.type);
+        let counter = this.pictures[this.index].counter;
+        counter = msg.type === "adopt" ? ++counter : --counter;
+        this.pictures[this.index].counter = counter;
+        this.emitCounter();
+        console.log("COUNT " + this.index + ": " + this.pictures[this.index].counter);
+    }
+
+    emitCounter() {
+        this.io.emit('counter', this.pictures[this.index].counter);
     }
 }
 

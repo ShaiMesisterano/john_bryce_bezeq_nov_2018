@@ -47,6 +47,7 @@ var userRouter = require("./routers/user");
 var Gallery = require("./resources/Gallery");
 var app = express();
 var server = http.createServer(app);
+var gallery;
 app.use(bodyParser.urlencoded());
 app.use(session({ secret: "mySecret" }));
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -57,9 +58,15 @@ var io = socketIO(server);
 //     console.log('socket is connected...');
 // });
 io.on('connection', function (socket) { return __awaiter(_this, void 0, void 0, function () {
-    var gallery;
     return __generator(this, function (_a) {
-        gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+        // console.log('socket is connected...');
+        // const pictures = await gallery();
+        // io.emit('pictures', pictures);
+        // socket.on('init', (msg) => {
+        //     const gallery = new Gallery('http://random.dog/woof.json', io, 3, 5000);
+        //     gallery.start();
+        // })
+        gallery = new Gallery('http://random.dog/woof.json', socket, io, 3, 5000);
         gallery.start();
         return [2 /*return*/];
     });

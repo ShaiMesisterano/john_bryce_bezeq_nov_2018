@@ -11,14 +11,17 @@
 
 
     <body>
-        <p>
-            <img id="dogPic" src="" />
-            <video id="dogVideo" src="" autoplay></video>
-        </p>
-        <h1 id="counter"></h1>
-       <button id="btnAdopt" class="btn btn-success">Adopt</button>
-       <button id="btnDrop" class="btn btn-danger">Drop</button>
-
+        <div id="loading"><h1>Loading...</h1></div>
+        <div id="content" class="hide">
+            <h2 id="username"></h2>
+            <button id="btnAdopt" class="btn btn-success">Adopt</button>
+            <button id="btnDrop" class="btn btn-danger">Drop</button>
+            <h1 id="counter"></h1>
+            <p>
+                <img id="dogPic" src="" />
+                <video id="dogVideo" src="" autoplay></video>
+            </p>
+        </div>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
        <script src="client.js"></script>
     </body>
