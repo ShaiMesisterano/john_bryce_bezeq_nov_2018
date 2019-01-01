@@ -1,5 +1,6 @@
 module.exports = {
-    sum: function(a, b) {
+    sum: function(a, b, cb = function(){}) {
+        cb(a + b);
         return a + b;
     },
     multiply: function(a, b) {
